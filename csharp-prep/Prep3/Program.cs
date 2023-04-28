@@ -15,7 +15,7 @@ class Program
         string input = "";
         int number = randomGenerator.Next(1,100);
         do {
-            Console.WriteLine("What is your guess?");
+            Console.Write("What is your guess?: ");
             input = Console.ReadLine();
             guess = int.Parse(input);
             guesses++;
@@ -28,8 +28,9 @@ class Program
             else if (guess == number) {
                 Console.WriteLine("Congrats! You guessed the magic number!");
                 Console.WriteLine($"Number of guesses: {guesses}.");
-                Console.WriteLine("Would you like to play again? (Enter 'Y' or 'N'): ");
+                Console.Write("Would you like to play again? (Enter 'Y' or 'N'): ");
                 play = Console.ReadLine();
+                play = play.ToUpper();
                 number = randomGenerator.Next(1,100);
                 guesses = 0;
             }
