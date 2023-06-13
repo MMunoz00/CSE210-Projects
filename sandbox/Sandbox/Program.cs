@@ -5,40 +5,53 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Hello Sandbox World!");
-        var personOne = new Person("Luke Skywalker");
-        var byuiPerson = new BYUIPerson("Obi-Wan Kenobi", "1");
-        var studentOne = new Student("Darth Vader", "2", "The Dark Side of the Force");
+    
+        var hourly = new HourlyEmployee(1000, "Enriqo Fermi", 14);
+        var salary = new SalaryEmployee(90000, "Robert Oppenheimer", 14);
+        
+        var employees = new List<Employee> {hourly, salary};
+
+        foreach (var employee in employees) {
+            Console.WriteLine(employee._name);
+            Console.WriteLine(employee.PayPeriodWages());
+        }
     }
 }
 
-class Person {
-    protected string _name;
+class Employee {
+    public string _name;
+    protected double _payPeriodLength;
 
-    public Person(string name) {
+    public Employee(string name, int payPeriodLength) {
         _name = name;
+        _payPeriodLength = payPeriodLength;
+    }
+
+    virtual public double PayPeriodWages() {
+        return 0;
     }
 }
 
-class BYUIPerson: Person {
-    protected string _iNumber;
+class HourlyEmployee: Employee {
+    private double _rate;
 
-    public BYUIPerson(string name, string iNumber) : base(name) {
-        _iNumber = iNumber;
+    public HourlyEmployee(double rate, string name, int payPeriodLength): base(name, payPeriodLength) {
+        _rate = rate;
+    }
+
+    public override double PayPeriodWages() {
+        return _rate * 8 * _payPeriodLength;
     }
 }
 
-class Student: BYUIPerson {
-    private string _major;
+class SalaryEmployee: Employee {
+    private double _annualRate;
 
-    public Student(string name, string iNumber, string major): base(name, iNumber) {
-        _major = major;
+    public SalaryEmployee(double annualRate, string name, int payPeriodLength): base(name, payPeriodLength) {
+        _annualRate = annualRate;
     }
-}
 
-class Teacher: BYUIPerson {
-    private string _department;
-
-    public Teacher(string name, string iNumber, string department): base(name, iNumber) {
-        _department = department;
+    public override double PayPeriodWages() {
+        return ((_payPeriodLength / 365) * _annualRate);
     }
 }
